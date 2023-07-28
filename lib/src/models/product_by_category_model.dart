@@ -2,7 +2,7 @@ class ProductByCategoryModel {
   ProductByCategoryModel({
     this.success,
     this.message,
-     required this.data,
+    required this.data,
   });
 
   ProductByCategoryModel.fromJson(dynamic json) {
@@ -29,28 +29,27 @@ class ProductByCategoryModel {
 }
 
 class CategoryProductData {
-  CategoryProductData({
-    this.id,
-    this.slug,
-    this.title,
-    this.shortDescription,
-    this.specialDiscountType,
-    this.specialDiscount,
-    this.discountPrice,
-    this.image,
-    this.price,
-    this.rating,
-    this.totalReviews,
-    this.currentStock,
-    this.totalSale,
-    this.reward,
-    this.minimumOrderQuantity,
-    this.isNew,
-    this.sku,
-    this.linkedProducts,
-    this.instrumentType,
-    this.description
-  });
+  CategoryProductData(
+      {this.id,
+      this.slug,
+      this.title,
+      this.shortDescription,
+      this.specialDiscountType,
+      this.specialDiscount,
+      this.discountPrice,
+      this.image,
+      this.price,
+      this.rating,
+      this.totalReviews,
+      this.currentStock,
+      this.totalSale,
+      this.reward,
+      this.minimumOrderQuantity,
+      this.isNew,
+      this.sku,
+      this.linkedProducts,
+      this.instrumentType,
+      this.description});
 
   CategoryProductData.fromJson(dynamic json) {
     id = json['id'];
@@ -68,28 +67,35 @@ class CategoryProductData {
     currentStock = json['current_stock'];
     totalSale = json['total_sale'];
     reward = json['reward'];
+    productId = json['productid'] != null ? json['productid'].toString() : null;
     minimumOrderQuantity = json['minimum_order_quantity'];
     isNew = json['is_new'];
     sku = json['sku'] ?? "";
     brand = json['brand'] ?? "";
-    tags = json['tags'] ?? "";
+    tags = json['tags'] is List ? json['tags'].join(',') : json['tags'];
     ordering = json['ordering'] ?? 0;
-    if(json['linked_products'] is List){
+    if (json['linked_products'] is List) {
       List<dynamic> products = json['linked_products'];
-        for (var element in products) {
-          linkedProducts!.add(CategoryProductData.fromJson(element));
-        }
+      for (var element in products) {
+        linkedProducts!.add(CategoryProductData.fromJson(element));
+      }
     }
     instrumentType = json['instruments_types'] ?? json['instruments_types'];
-    description = json['description'] ?? "";
-    if(tags!.isNotEmpty && tags!.contains(',')){
-      tags = tags!.substring(tags!.indexOf(',')+1,tags!.length);
+    description = json['description'] is List
+        ? json['description'].join()
+        : json['description'] ?? "";
+    if (tags is List) {
+    } else {
+      if (tags!.isNotEmpty && tags!.contains(',')) {
+        tags = tags!.substring(tags!.indexOf(',') + 1, tags!.length);
+      }
     }
   }
 
   int? id;
   String? slug;
   String? title;
+  String? productId;
   String? shortDescription;
   String? specialDiscountType;
   dynamic specialDiscount;
@@ -107,7 +113,7 @@ class CategoryProductData {
   String? brand;
   String? tags;
   int? ordering;
-  List<CategoryProductData> ?linkedProducts = [];
+  List<CategoryProductData>? linkedProducts = [];
   String? instrumentType;
   String? description;
 
@@ -129,6 +135,7 @@ class CategoryProductData {
     map['reward'] = reward;
     map['minimum_order_quantity'] = minimumOrderQuantity;
     map['is_new'] = isNew;
+    map['product_id'] = productId;
     return map;
   }
 }

@@ -11,10 +11,12 @@ import 'package:cpcdiagnostics_ecommerce/config.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:cpcdiagnostics_ecommerce/src/models/all_brand_model.dart';
-import 'package:cpcdiagnostics_ecommerce/src/models/all_campaign_model.dart' as campaign;
+import 'package:cpcdiagnostics_ecommerce/src/models/all_campaign_model.dart'
+    as campaign;
 import 'package:cpcdiagnostics_ecommerce/src/models/all_category_model.dart';
 import 'package:cpcdiagnostics_ecommerce/src/models/all_category_product_model.dart';
-import 'package:cpcdiagnostics_ecommerce/src/models/all_news_model.dart' as news;
+import 'package:cpcdiagnostics_ecommerce/src/models/all_news_model.dart'
+    as news;
 import 'package:cpcdiagnostics_ecommerce/src/models/all_notifications.dart';
 import 'package:cpcdiagnostics_ecommerce/src/models/all_product_model.dart'
     as all_product;
@@ -45,7 +47,8 @@ import 'package:cpcdiagnostics_ecommerce/src/models/search_product_model.dart';
 import 'package:cpcdiagnostics_ecommerce/src/models/shipping_address_model/get_city_model.dart';
 import 'package:cpcdiagnostics_ecommerce/src/models/shipping_address_model/shipping_address_model.dart';
 import 'package:cpcdiagnostics_ecommerce/src/models/shipping_address_model/state_list_model.dart';
-import 'package:cpcdiagnostics_ecommerce/src/models/top_shop_model.dart' as top_shop;
+import 'package:cpcdiagnostics_ecommerce/src/models/top_shop_model.dart'
+    as top_shop;
 import 'package:cpcdiagnostics_ecommerce/src/models/track_order_model.dart';
 import 'package:cpcdiagnostics_ecommerce/src/models/user_data_model.dart';
 import 'package:cpcdiagnostics_ecommerce/src/models/recent_viewed_product_model.dart'
@@ -144,9 +147,7 @@ class Repository {
   }
 
   //User Login
-  Future<bool?> postPhoneLoginOTP(
-      {String? phoneNumber, var otp}) async {
-
+  Future<bool?> postPhoneLoginOTP({String? phoneNumber, var otp}) async {
     var headers = {"apiKey": Config.apiKey};
     var body = {
       'phone': phoneNumber,
@@ -258,7 +259,8 @@ class Repository {
     var data = json.decode(response.body);
     if (response.statusCode == 200) {
       ForgetPasswordModel forgetPassword = ForgetPasswordModel.fromJson(data);
-      LocalDataHelper().saveForgotPasswordCode(forgetPassword.data!.code.toString());
+      LocalDataHelper()
+          .saveForgotPasswordCode(forgetPassword.data!.code.toString());
       return forgetPassword;
     } else {
       showErrorToast(data['message']);
@@ -266,12 +268,10 @@ class Repository {
   }
 
   //Confirm OTP
-  Future<bool?> postForgetPasswordConfirmOTP({String? email,String? otp}) async {
+  Future<bool?> postForgetPasswordConfirmOTP(
+      {String? email, String? otp}) async {
     var headers = {"apiKey": Config.apiKey};
-    var body = {
-      'email': email,
-      'otp' :otp
-    };
+    var body = {'email': email, 'otp': otp};
     printLog("$email");
     var url = Uri.parse("${NetworkService.apiUrl}/verify-otp");
     final response = await http.post(url, body: body, headers: headers);
@@ -286,12 +286,11 @@ class Repository {
 
   //User Forget Password Set
   Future<bool?> postForgetPassword(
-      { String? code,
-        String? email,
-        String? password,
-        String? confirmPassword,
-        String? otp
-      }) async {
+      {String? code,
+      String? email,
+      String? password,
+      String? confirmPassword,
+      String? otp}) async {
     var headers = {"apiKey": Config.apiKey};
     var body = {
       'code': code,
@@ -320,10 +319,9 @@ class Repository {
       required String email,
       required String password,
       required String confirmPassword,
-        String companyName = "",
-        String phone = "",
-        int ?userRole
-      }) async {
+      String companyName = "",
+      String phone = "",
+      int? userRole}) async {
     var headers = {"apiKey": Config.apiKey};
     var body = {
       'first_name': firstName,
@@ -333,7 +331,7 @@ class Repository {
       'password_confirmation': confirmPassword,
       'company_name': companyName,
       'phone': phone,
-      'user_roles':userRole.toString()
+      'user_roles': userRole.toString()
     };
     var url = Uri.parse("${NetworkService.apiUrl}/register?$langCurrCode");
     final response = await http.post(url, body: body, headers: headers);
@@ -424,7 +422,7 @@ class Repository {
       requestBody.fields['title'] = title;
       requestBody.fields['comment'] = comment;
       requestBody.fields['rating'] = rating;
-      if(image!=null){
+      if (image != null) {
         var stream = http.ByteStream(image.openRead())..cast();
         var length = await image.length();
         var multipartFile = http.MultipartFile('image', stream, length,
@@ -807,14 +805,13 @@ class Repository {
     var url =
         "${NetworkService.apiUrl}/orders?token=${LocalDataHelper().getUserToken()}&$langCurrCode";
     final response = await _service.fetchJsonData(url);
-    print("order history "+"$response");
+    print("order history " + "$response");
     return OrderListModel.fromJson(response);
   }
 
   //Guest Order List
   Future<OrderListModel> getGuestOrderList({String? trxId}) async {
-    var url =
-        "${NetworkService.apiUrl}/order-by-trx?trx_id=$trxId";
+    var url = "${NetworkService.apiUrl}/order-by-trx?trx_id=$trxId";
     final response = await _service.fetchJsonData(url);
     return OrderListModel.fromJson(response);
   }
@@ -873,68 +870,67 @@ class Repository {
   }
 
   //All Product
-  Future<List<all_product.Data>> getAllProduct({required int page,String search="",bool filterByname=true,bool sortByDesc = false}) async {
+  Future<List<all_product.Data>> getAllProduct(
+      {required int page,
+      String search = "",
+      bool filterByname = true,
+      bool sortByDesc = false}) async {
     var url = "${NetworkService.apiUrl}/get-products?page=$page&$langCurrCode";
     final response = await _service.fetchJsonData(url);
     return all_product.AllProductModel.fromJson(response).data;
   }
 
   Future<List<all_product.Data>> getFilteredProducts({
-    String search="",
-    int ?filter,
+    String search = "",
+    int? filter,
     bool sortByDesc = false,
   }) async {
-    var url = "${NetworkService.apiUrl}/products-filter?title=$search&filterByname=$filter&description=$search&sku=$search&type=all&$langCurrCode";
+    var url =
+        "${NetworkService.apiUrl}/products-filter?title=$search&filterByname=$filter&description=$search&sku=$search&type=all&$langCurrCode";
     print(url);
     final response = await _service.fetchJsonData(url);
-     print(response);
+    print(response);
 
     return all_product.AllProductModel.fromJson(response).data;
   }
 
-  Future<List<best_sell.Data>> getBestSellFilteredProducts({
-  String search="",
-  int ?filter,
-    bool sortByDesc = false
-  }) async {
-    var url = "${NetworkService.apiUrl}/products-filter?title=$search&filterByname=$filter&description=$search&sku=$search&type=reagents&$langCurrCode";
+  Future<List<best_sell.Data>> getBestSellFilteredProducts(
+      {String search = "", int? filter, bool sortByDesc = false}) async {
+    var url =
+        "${NetworkService.apiUrl}/products-filter?title=$search&filterByname=$filter&description=$search&sku=$search&type=reagents&$langCurrCode";
     print(url);
     final response = await _service.fetchJsonData(url);
     return best_sell.BestSellingProductsModel.fromJson(response).data;
   }
 
-  Future<List<product.CategoryProductData>> getFilteredCategoryProducts({
-    String search="",
-    int ?filter,
-    int ?category_id,
-    int mainFilter = 0,
-    required List<String> chosenBrands,
-    required List<int> chosenProducts,
-    required List<String> chosenParameters,
-    int pageIndex = 0,Function(Map<String,dynamic>) ?filtersCallback
-  }) async {
-
+  Future<List<product.CategoryProductData>> getFilteredCategoryProducts(
+      {String search = "",
+      int? filter,
+      int? category_id,
+      int mainFilter = 0,
+      required List<String> chosenBrands,
+      required List<int> chosenProducts,
+      required List<String> chosenParameters,
+      int pageIndex = 0,
+      Function(Map<String, dynamic>)? filtersCallback}) async {
     List<product.CategoryProductData> products = [];
     var url = "${NetworkService.apiUrl}/products-by-category/$category_id";
     mainFilter = (category_id == 1 && mainFilter != 2) ? 3 : mainFilter;
-    var headers = {
-      "apiKey": Config.apiKey,
-      "content-type": "application/json"
-    };
-    Map<String,dynamic> data = {
+    var headers = {"apiKey": Config.apiKey, "content-type": "application/json"};
+    Map<String, dynamic> data = {
       'mainFilter': mainFilter,
       'page': pageIndex,
       'product': chosenProducts,
-      chosenBrands.isNotEmpty?'brands':"": chosenBrands,
-      chosenParameters.isNotEmpty?'tags':"": chosenParameters,
+      chosenBrands.isNotEmpty ? 'brand' : "": chosenBrands,
+      chosenParameters.isNotEmpty ? 'tags' : "": chosenParameters,
       'search': search
     };
     print(data);
     print(category_id);
     final response = await http.post(
-        Uri.parse(url),
-        headers: headers,
-        body: jsonEncode(data),
+      Uri.parse(url),
+      headers: headers,
+      body: jsonEncode(data),
     );
     List productsData = json.decode(response.body)['data'];
 
@@ -942,8 +938,7 @@ class Repository {
       for (var element in productsData) {
         products.add(product.CategoryProductData.fromJson(element));
       }
-    }
-    else{
+    } else {
       for (var element in productsData) {
         if ((element['linked_products'] as List).isNotEmpty) {
           for (var filteredReagent in (element['linked_products'] as List)) {
@@ -954,17 +949,19 @@ class Repository {
     }
 
     //
-    if (filtersCallback != null ) {
+    if (filtersCallback != null) {
       List<String> brands = [];
-      List<String> ?parameters = [];
-      List<String> ?instruments = [];
-      Map<String,String> productsMap = {};
+      List<String>? parameters = [];
+      List<String>? instruments = [];
+      Map<String, String> productsMap = {};
       var list = json.decode(response.body)['filtered_data'];
-      if(list is List && list.isNotEmpty || list is Map) {
+      if (list is List && list.isNotEmpty || list is Map) {
         //
         if (json.decode(response.body)['filtered_data']['brands'] != null) {
-          brands = (json.decode(response.body)['filtered_data']['brands'] as List)
-                  .map((item) => item as String).toSet()
+          brands =
+              (json.decode(response.body)['filtered_data']['brands'] as List)
+                  .map((item) => item as String)
+                  .toSet()
                   .toList();
         }
         brands.removeWhere((element) => element == "");
@@ -972,25 +969,26 @@ class Repository {
         if (json.decode(response.body)['filtered_data']['tags'] != null) {
           parameters =
               (json.decode(response.body)['filtered_data']['tags'] as List)
-                  .map((item) => item as String).toSet().toList();
+                  .map((item) => item as String)
+                  .toSet()
+                  .toList();
         }
         parameters.removeWhere((element) => element == "");
         //
         if (json.decode(response.body)['filtered_data']['products'] != null) {
-          var productFilters = (json.decode(response.body)['filtered_data']['products'] as List);
-          if(productFilters.isNotEmpty){
+          var productFilters =
+              (json.decode(response.body)['filtered_data']['products'] as List);
+          if (productFilters.isNotEmpty) {
             for (var element in productFilters) {
-              productsMap.putIfAbsent(element['title'].toString(), () => element['id'].toString());
+              productsMap.putIfAbsent(
+                  element['title'].toString(), () => element['id'].toString());
             }
           }
         }
 
         //
-        filtersCallback({
-          'products': productsMap,
-          'brands': brands,
-          'tags': parameters
-        });
+        filtersCallback(
+            {'products': productsMap, 'brands': brands, 'tags': parameters});
       }
     }
     return products;
@@ -1194,9 +1192,9 @@ class Repository {
     var url = Uri.parse(
         "${NetworkService.apiUrl}/product-details/$productId?token=${LocalDataHelper().getUserToken()}&$langCurrCode");
     final response = await http.get(url, headers: headers);
-      var data = json.decode(response.body);
-      detailsModel = ProductDetailsModel.fromJson(data);
-      return detailsModel;
+    var data = json.decode(response.body);
+    detailsModel = ProductDetailsModel.fromJson(data);
+    return detailsModel;
   }
 
   //Product Details
@@ -1204,15 +1202,14 @@ class Repository {
     print(page);
     List<BrochureModel> brochures = [];
     var headers = {"apiKey": Config.apiKey};
-    var url = Uri.parse(
-        "${NetworkService.apiUrl}/specifications?page=$page");
+    var url = Uri.parse("${NetworkService.apiUrl}/specifications?page=$page");
     final response = await http.get(url, headers: headers);
-      var data = json.decode(response.body);
-     var pdfList =  data['data']['data'];
-     pdfList.forEach((element) {
-         brochures.add(BrochureModel.fromJson(element));
-     });
-     return brochures;
+    var data = json.decode(response.body);
+    var pdfList = data['data']['data'];
+    pdfList.forEach((element) {
+      brochures.add(BrochureModel.fromJson(element));
+    });
+    return brochures;
   }
 
   //Shipping Address
@@ -1552,35 +1549,27 @@ class Repository {
     }
   }
 
-  Future orderProducts() async{
-
+  Future orderProducts() async {
     String? token = LocalDataHelper().getUserToken();
     print(LocalDataHelper().getCartTrxId());
-    var headers = {"apiKey": Config.apiKey,"token":"Bearer "+"$token"};
+    var headers = {"apiKey": Config.apiKey, "token": "Bearer " + "$token"};
     if (token == null) {
       return false;
     } else {
+      var url = Uri.parse("${NetworkService.apiUrl}/confirm-order");
+      final response = await http.post(url,
+          body: {"token": token, "trx_id": LocalDataHelper().getCartTrxId()},
+          headers: headers);
+      print(response);
+      if (response.statusCode == 200) {
+        Fluttertoast.showToast(msg: "Inquiry request successful");
+        Get.offAllNamed(Routes.dashboardScreen);
+      } else {
+        print("error");
+      }
 
-        var url = Uri.parse("${NetworkService.apiUrl}/confirm-order");
-        final response = await http.post(
-            url,
-            body: {
-              "token": token,
-              "trx_id": LocalDataHelper().getCartTrxId()
-            },
-            headers: headers
-        );
-        print(response);
-        if(response.statusCode==200){
-          Fluttertoast.showToast(msg: "Inquiry request successful");
-          Get.offAllNamed(Routes.dashboardScreen);
-        }
-        else{
-          print("error");
-        }
-
-        Fluttertoast.showToast(msg: "Something went wrong");
-        //print(e);
+      Fluttertoast.showToast(msg: "Something went wrong");
+      //print(e);
     }
   }
 }

@@ -93,7 +93,8 @@ class CategoryProductCard extends StatelessWidget {
                     Routes.detailsPage,
                     parameters: {
                       'productId': dataModel.id!.toString(),
-                      'sku': dataModel.sku ?? ""
+                      'sku': dataModel.sku ?? "",
+                      'filterProductId': dataModel.productId
                     },
                   );
                 },
@@ -264,7 +265,9 @@ class CategoryProductCard extends StatelessWidget {
                     Routes.detailsPage,
                     parameters: {
                       'productId': dataModel.id!.toString(),
-                      'sku': dataModel.sku ?? ""
+                      'sku': dataModel.sku ?? "",
+                      'filterProductId':
+                          dataModel.productId ?? dataModel.id!.toString()
                     },
                   );
                 },
@@ -378,7 +381,7 @@ class CategoryProductCard extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(5.r),
                       child: Text(
-                        dataModel.tags!,
+                        dataModel.title ?? "",
                         style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.bold,

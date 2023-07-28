@@ -67,58 +67,57 @@ class Data {
   List<CategoryProductData> linkedProducts = [];
   int? ordering;
   String? pdf;
-  String ?tech_specification;
+  String? tech_specification;
 
   ClassifiedContactInfo? classifiedContactInfo;
   String? catalogExternalLink;
 
-  Data({
-    this.title,
-    this.details,
-    this.specialDiscountType,
-    this.specialDiscount,
-    this.discountPrice,
-    this.price,
-    this.rating,
-    this.totalReviews,
-    this.currentStock,
-    this.minimumOrderQuantity,
-    this.reward,
-    this.totalImages,
-    this.images,
-    this.colors,
-    this.attributes,
-    this.specialDiscountStart,
-    this.specialDiscountEnd,
-    this.description,
-    required this.isFavourite,
-    this.shortDescription,
-    this.longDescription,
-    this.hasVariant,
-    this.isWholesale = false,
-    this.specifications,
-    this.reviews,
-    this.isReviewed,
-    this.delivery,
-    this.returnData = 0,
-    this.stockVisibility,
-    this.wholesalePrices,
-    this.isCatalog,
-    this.isClassified,
-    this.isFeatured,
-    this.isDigital,
-    this.isRefundable,
-    this.descriptionImages,
-    this.form,
-    this.links,
-    this.catalogExternalLink,
-    this.classifiedContactInfo,
-    this.sku,
-    this.linkedProducts = const[],
-    this.ordering,
-    this.pdf,
-    this.tech_specification
-  });
+  Data(
+      {this.title,
+      this.details,
+      this.specialDiscountType,
+      this.specialDiscount,
+      this.discountPrice,
+      this.price,
+      this.rating,
+      this.totalReviews,
+      this.currentStock,
+      this.minimumOrderQuantity,
+      this.reward,
+      this.totalImages,
+      this.images,
+      this.colors,
+      this.attributes,
+      this.specialDiscountStart,
+      this.specialDiscountEnd,
+      this.description,
+      required this.isFavourite,
+      this.shortDescription,
+      this.longDescription,
+      this.hasVariant,
+      this.isWholesale = false,
+      this.specifications,
+      this.reviews,
+      this.isReviewed,
+      this.delivery,
+      this.returnData = 0,
+      this.stockVisibility,
+      this.wholesalePrices,
+      this.isCatalog,
+      this.isClassified,
+      this.isFeatured,
+      this.isDigital,
+      this.isRefundable,
+      this.descriptionImages,
+      this.form,
+      this.links,
+      this.catalogExternalLink,
+      this.classifiedContactInfo,
+      this.sku,
+      this.linkedProducts = const [],
+      this.ordering,
+      this.pdf,
+      this.tech_specification});
 
   Data.fromJson(Map<String, dynamic> json) {
     title = json['title'];
@@ -187,18 +186,17 @@ class Data {
         : null;
     catalogExternalLink = json['catalog_external_link'];
     sku = json["sku"] ?? "";
-    if(json['linked_products'] is List ){
-      List<dynamic> products =  json['linked_products'];
-       for (var element in products) {
-         linkedProducts.add(CategoryProductData.fromJson(element));
-       }
+    if (json['linked_products'] is List) {
+      List<dynamic> products = json['linked_products'];
+      for (var element in products) {
+        linkedProducts.add(CategoryProductData.fromJson(element));
+      }
     }
     ordering = json['ordering'] ?? 0;
-    if(json['Specification_pdf'] is List){
+    if (json['Specification_pdf'] is List) {
       pdf = "";
-    }
-    else{
-      pdf =json['Specification_pdf']['file'];
+    } else {
+      pdf = json['Specification_pdf']['file'];
     }
     tech_specification = json['tech_specification'] ?? "";
   }

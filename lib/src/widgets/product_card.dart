@@ -29,7 +29,7 @@ class ProductCard extends StatelessWidget {
       nearLength: dataModel.data![index].isNew! ? 40 : 1,
       title: AppTags.neW.tr,
       titleStyle: TextStyle(
-        fontSize: isMobile(context)?10.sp:7.sp,
+        fontSize: isMobile(context) ? 10.sp : 7.sp,
         fontFamily: 'Poppins',
       ),
       color: AppThemeData.productBannerColor,
@@ -54,9 +54,7 @@ class ProductCard extends StatelessWidget {
             Get.toNamed(
               Routes.detailsPage,
               parameters: {
-                'productId': dataModel.data[index]
-                    .id!
-                    .toString(),
+                'productId': dataModel.data[index].id!.toString(),
               },
             );
           },
@@ -77,7 +75,8 @@ class ProductCard extends StatelessWidget {
                                 : Container(
                                     height: 20.h,
                                     decoration: BoxDecoration(
-                                      color: AppThemeData.productBoxDecorationColor
+                                      color: AppThemeData
+                                          .productBoxDecorationColor
                                           .withOpacity(0.06),
                                       borderRadius: BorderRadius.all(
                                         Radius.circular(3.r),
@@ -99,7 +98,8 @@ class ProductCard extends StatelessWidget {
                                     : Container(
                                         height: 20.h,
                                         decoration: BoxDecoration(
-                                          color: AppThemeData.productBoxDecorationColor
+                                          color: AppThemeData
+                                              .productBoxDecorationColor
                                               .withOpacity(0.06),
                                           borderRadius: BorderRadius.all(
                                             Radius.circular(3.r),
@@ -124,7 +124,8 @@ class ProductCard extends StatelessWidget {
                         ? Container(
                             height: 20.h,
                             decoration: BoxDecoration(
-                              color: AppThemeData.productBoxDecorationColor.withOpacity(0.06),
+                              color: AppThemeData.productBoxDecorationColor
+                                  .withOpacity(0.06),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(3.r)),
                             ),

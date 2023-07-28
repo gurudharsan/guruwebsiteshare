@@ -3,7 +3,7 @@ class AllProductModel {
   String? message;
   late final List<Data> data;
 
-  AllProductModel({this.success, this.message,required this.data});
+  AllProductModel({this.success, this.message, required this.data});
 
   AllProductModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
@@ -27,6 +27,7 @@ class AllProductModel {
 
 class Data {
   int? id;
+  String? productId;
   String? slug;
   String? title;
   String? shortDescription;
@@ -46,33 +47,33 @@ class Data {
   bool? isNew;
   String? sku;
   String? description;
-  String ?tags;
+  String? tags;
   int? ordering;
 
-  Data({
-    this.id,
-    this.slug,
-    this.title,
-    this.shortDescription,
-    this.specialDiscountType,
-    this.specialDiscount,
-    this.discountPrice,
-    this.formattedPrice,
-    this.formattedDiscount,
-    this.image,
-    this.price,
-    this.rating,
-    this.totalReviews,
-    this.currentStock,
-    this.reward,
-    this.minimumOrderQuantity,
-    this.isFavourite,
-    this.isNew,
-    this.sku,
-    this.description,
-    this.tags,
-    this.ordering
-  });
+  Data(
+      {this.id,
+      this.slug,
+      this.title,
+      this.shortDescription,
+      this.specialDiscountType,
+      this.specialDiscount,
+      this.discountPrice,
+      this.formattedPrice,
+      this.formattedDiscount,
+      this.image,
+      this.productId,
+      this.price,
+      this.rating,
+      this.totalReviews,
+      this.currentStock,
+      this.reward,
+      this.minimumOrderQuantity,
+      this.isFavourite,
+      this.isNew,
+      this.sku,
+      this.description,
+      this.tags,
+      this.ordering});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -96,9 +97,10 @@ class Data {
     sku = json['sku'] ?? "";
     description = json["description"] ?? "";
     tags = json["tags"] ?? "";
+    productId = json['product_id'].toString() ?? "";
     ordering = json['ordering'] ?? 0;
-    if(tags!.isNotEmpty && tags!.contains(',')) {
-      tags = tags! .substring(tags!.indexOf(','), tags!.length);
+    if (tags!.isNotEmpty && tags!.contains(',')) {
+      tags = tags!.substring(tags!.indexOf(','), tags!.length);
     }
   }
 
@@ -122,6 +124,7 @@ class Data {
     data['minimum_order_quantity'] = minimumOrderQuantity;
     data['is_favourite'] = isFavourite;
     data['is_new'] = isNew;
+
     return data;
   }
 }

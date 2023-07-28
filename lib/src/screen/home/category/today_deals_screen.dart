@@ -41,50 +41,48 @@ class _TodayDealState extends State<TodayDeal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:isMobile(context)? AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-          onPressed: () {
-            Get.back();
-          }, // null disables the button
-        ),
-        centerTitle: true,
-        title: Text(
-          AppTags.todayDeal.tr,
-          style: AppThemeData.headerTextStyle_16,
-        ),
-      ):AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        toolbarHeight: 60.h,
-        leadingWidth: 40.w,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-              size: 25.r
-          ),
-          onPressed: () {
-            Get.back();
-          }, // null disables the button
-        ),
-        centerTitle: true,
-        title: Text(
-          AppTags.todayDeal.tr,
-          style:  AppThemeData.headerTextStyleTab,
-        ),
-      ),
+      appBar: isMobile(context)
+          ? AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              leading: IconButton(
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  Get.back();
+                }, // null disables the button
+              ),
+              centerTitle: true,
+              title: Text(
+                AppTags.todayDeal.tr,
+                style: AppThemeData.headerTextStyle_16,
+              ),
+            )
+          : AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              toolbarHeight: 60.h,
+              leadingWidth: 40.w,
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back, color: Colors.black, size: 25.r),
+                onPressed: () {
+                  Get.back();
+                }, // null disables the button
+              ),
+              centerTitle: true,
+              title: Text(
+                AppTags.todayDeal.tr,
+                style: AppThemeData.headerTextStyleTab,
+              ),
+            ),
       body: PaginationView<Data>(
         key: key,
         paginationViewType: paginationViewType,
         pageFetch: getData,
         pullToRefresh: false,
-        onError: (dynamic error) =>  Center(
+        onError: (dynamic error) => Center(
           child: Text(AppTags.someErrorOccurred.tr),
         ),
         onEmpty: const Center(
@@ -92,11 +90,11 @@ class _TodayDealState extends State<TodayDeal> {
         ),
         bottomLoader: const ShimmerLoadData(),
         initialLoader: const ShimmerProducts(),
-        gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: isMobile(context)? 2:3,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: isMobile(context) ? 2 : 3,
           childAspectRatio: 0.68,
-          mainAxisSpacing: isMobile(context)? 15:20,
-          crossAxisSpacing: isMobile(context)? 15:20,
+          mainAxisSpacing: isMobile(context) ? 15 : 20,
+          crossAxisSpacing: isMobile(context) ? 15 : 20,
         ),
         itemBuilder: (BuildContext context, Data product, int index) {
           return CategoryProductCard(

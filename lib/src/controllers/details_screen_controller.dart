@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 import 'dart:io';
 
@@ -32,8 +31,7 @@ class DetailsPageController extends GetxController {
   var hassleFree = false.obs;
   var groupProduct = false.obs;
   var isObsecure = true.obs;
-  var isReviewLoading=true.obs;
-
+  var isReviewLoading = true.obs;
 
   late Rx<AppLifecycleState> appState;
 
@@ -47,22 +45,24 @@ class DetailsPageController extends GetxController {
   var totalPrice = 0.0.obs;
   String colorId = '';
   String colorValue = '';
-  var pageView=0.obs;
+  var pageView = 0.obs;
   RxInt ordering = 0.obs;
 
-  updatePageIncrement(){
+  updatePageIncrement() {
     int imageLength = productDetail.value.data!.descriptionImages!.length;
-    if(pageView<imageLength-1){
+    if (pageView < imageLength - 1) {
       pageView.value++;
     }
   }
-  updatePageDecrement(){
-    if(pageView>0){
+
+  updatePageDecrement() {
+    if (pageView > 0) {
       pageView.value--;
     }
   }
 
   var productId = Get.parameters['productId'];
+  var filterProductId = Get.parameters['filterProductId'];
 
   //PDf File Reader
   Future<void> openFile(var url) async {
@@ -72,20 +72,21 @@ class DetailsPageController extends GetxController {
 
   userReviewIndex() {
     printLog(LocalDataHelper().getUserAllData()!.data!.userId!);
-    int lengthReview= productDetail.value.data!.reviews!.length;
-    for(int i=0; i<=lengthReview;i++){
-      if(productDetail.value.data!.reviews![i].user!.id==LocalDataHelper().getUserAllData()!.data!.userId!){
+    int lengthReview = productDetail.value.data!.reviews!.length;
+    for (int i = 0; i <= lengthReview; i++) {
+      if (productDetail.value.data!.reviews![i].user!.id ==
+          LocalDataHelper().getUserAllData()!.data!.userId!) {
         return i;
       }
     }
   }
 
-
   File? image;
   late String imagePath;
   final _picker = ImagePicker();
   Future<void> getImage() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery,imageQuality: 20);
+    final pickedFile =
+        await _picker.pickImage(source: ImageSource.gallery, imageQuality: 20);
     if (pickedFile != null) {
       image = File(pickedFile.path);
       imagePath = pickedFile.path;
@@ -99,18 +100,15 @@ class DetailsPageController extends GetxController {
   generateDeepLink() async {
     FirebaseDynamicLinks firebaseDynamicLinks = FirebaseDynamicLinks.instance;
     var parameters = DynamicLinkParameters(
-        link: Uri.parse("https://www.cpcdiagnostics.bizzonit.com?product_id=$productId"),
-        uriPrefix: "https://cpcdiag.page.link",
-        androidParameters: const AndroidParameters(packageName: 'com.bizzonit.cpcdiagnostics'),
+      link: Uri.parse(
+          "https://www.cpcdiagnostics.bizzonit.com?product_id=$productId"),
+      uriPrefix: "https://cpcdiag.page.link",
+      androidParameters:
+          const AndroidParameters(packageName: 'com.bizzonit.cpcdiagnostics'),
     );
     var shortLink = await firebaseDynamicLinks.buildLink(parameters);
-    Share.share(
-         shortLink.toString(),
-        subject: productDetail.value.data!.title
-    );
+    Share.share(shortLink.toString(), subject: productDetail.value.data!.title);
   }
-
-
 
   Future postReviewSubmit({
     required String productId,
@@ -119,16 +117,18 @@ class DetailsPageController extends GetxController {
     required String rating,
     File? image,
   }) async {
-    isReviewLoading.value=false;
-    await Repository().postReviewSubmit(
-        productId: productId,
-        title: title,
-        comment: comment,
-        rating: rating,
-        image: image).then((value) {
-          isReviewLoading.value=true;
+    isReviewLoading.value = false;
+    await Repository()
+        .postReviewSubmit(
+            productId: productId,
+            title: title,
+            comment: comment,
+            rating: rating,
+            image: image)
+        .then((value) {
+      isReviewLoading.value = true;
     });
-    isReviewLoading.value=true;
+    isReviewLoading.value = true;
     update();
   }
 
@@ -227,7 +227,6 @@ class DetailsPageController extends GetxController {
     }
   }
 
-
   @override
   void onInit() {
     super.onInit();
@@ -235,7 +234,9 @@ class DetailsPageController extends GetxController {
     productImageNumber = 0.obs;
     ratingController = TextEditingController(text: '3.0');
     rating = initialRating;
-    getProductDetails(int.parse(productId.toString()));
+    getProductDetails(filterProductId != null
+        ? int.parse(filterProductId!)
+        : int.parse(productId.toString()));
   }
 
   updateColorId(String value) {
