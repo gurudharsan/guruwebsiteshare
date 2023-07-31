@@ -106,6 +106,8 @@ class ProductsFilterController extends GetxController {
 
   //
   combinationFilterAfterApiCall(List<CategoryProductData> products) {
+    //Clear list on every filter call
+    reagentsFilteredData.clear();
     if (selectedProductFilters.isNotEmpty) {
       if (selectedBrandFilters.isEmpty && selectedParameterFilters.isEmpty) {
         reagentsFilteredData.addAll(products);
