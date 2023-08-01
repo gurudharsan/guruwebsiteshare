@@ -94,7 +94,8 @@ class CategoryProductCard extends StatelessWidget {
                     parameters: {
                       'productId': dataModel.id!.toString(),
                       'sku': dataModel.sku ?? "",
-                      'filterProductId': dataModel.productId
+                      'filterProductId':
+                          dataModel.productId ?? dataModel.id!.toString()
                     },
                   );
                 },
